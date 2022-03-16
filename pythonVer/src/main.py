@@ -4,8 +4,6 @@ import os
 import tweepy
 import time
 
-# test
-
 # CONSTANTS
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
 ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
