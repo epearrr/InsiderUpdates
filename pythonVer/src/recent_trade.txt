@@ -1,0 +1,1 @@
+{'filing_date': '2022-03-15 11:45:57', 'trade_date': '2022-03-14', 'ticker': 'ASPS', 'company_name': 'Altisource Portfolio Solutions S.A.', 'insider_name': 'Shepro William B', 'title': 'COB, CEO', 'trade_type': 'P - Purchase', 'price': '$9.85', 'quantity': '+5,000', 'ownership_change_pct': '+1%', 'value': '+$49,250'}
