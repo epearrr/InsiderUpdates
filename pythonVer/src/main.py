@@ -42,10 +42,23 @@ def update_recent_trade_file(trade_dict):
     
     
 def format_tweet(trade_dict):
+    # reformat the titles to be CEO/Pres/10% etc instead of CEO, Pres, 10%
     title = trade_dict['title']
-    title.split(', ')
+    title = title.split(', ')
     
-    tweet = f"{trade_dict['ticker']} {trade_dict['title']}"
+    # if the length of the split is greater than 1, add the slashes
+    if len(title) > 1:
+        newTitle = ''
+        
+        for i in range(len(title)):
+            newTitle += title[i]
+            newTitle += '/'
+            
+    else:
+        newTitle = title
+        
+    
+    tweet = f"{trade_dict['ticker']} {newTitle}"
     
     return tweet
 
@@ -71,6 +84,9 @@ def main():
         if(old_trade != new_trade):
             tweetMessage = format_tweet(trade_dict)
             send_tweet(tweetMessage, api)
+        else:
+            print(f'formatted: {format_tweet(trade_dict)}')
+
         
         time.sleep(10)
         
