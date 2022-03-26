@@ -1,14 +1,15 @@
-import env_variables
 import check_trades
 import os
 import tweepy
 import time
 
 # CONSTANTS
-ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
-ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
-CONSUMER_KEY = os.environ.get('CONSUMER_KEY')
-CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
+ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
+ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET')
+CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
+CONSUMER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
+
+print(ACCESS_TOKEN)
 
 # authenticate API keys and return API object
 def authenticate_api():
@@ -36,7 +37,7 @@ def send_tweet(message, api):
 
 
 def update_recent_trade_file(trade_dict):
-    file = open('pythonVer/src/recent_trade.txt', 'w')
+    file = open('src/recent_trade.txt', 'w')
     file.write(str(trade_dict))
     file.close()
     
@@ -68,13 +69,13 @@ def main():
         
         trade_dict = check_trades.get_trade_info()
         
-        recent_trade_file = open('pythonVer/src/recent_trade.txt', 'r')
+        recent_trade_file = open('src/recent_trade.txt', 'r')
         old_trade = recent_trade_file.readlines()   
         recent_trade_file.close()
         
         update_recent_trade_file(trade_dict)
         
-        recent_trade_file = open('pythonVer/src/recent_trade.txt', 'r')
+        recent_trade_file = open('src/recent_trade.txt', 'r')
         new_trade = recent_trade_file.readlines()   
         recent_trade_file.close()
         
