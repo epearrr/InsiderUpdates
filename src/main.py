@@ -57,7 +57,6 @@ def format_tweet(trade_dict):
     else:
         newTitle = title
         
-    
     tweet = f"{trade_dict['ticker']} {newTitle}"
     
     return tweet
