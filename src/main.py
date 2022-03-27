@@ -9,8 +9,6 @@ ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET')
 CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
 CONSUMER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
 
-print(ACCESS_TOKEN)
-
 # authenticate API keys and return API object
 def authenticate_api():
     twitter_auth_keys = {
@@ -33,7 +31,16 @@ def authenticate_api():
 
 # send a tweet
 def send_tweet(message, api):
-    status = api.update_status(status=message)
+    media = api.media_upload('src/images/stock_graph.png')
+    api.update_status(status=message, media_ids=[media.media_id])
+
+
+def check_recent_trade_file():
+    recent_trade_file = open('src/recent_trade.txt', 'r')
+    trade = recent_trade_file.readlines()   
+    recent_trade_file.close()
+    
+    return trade
 
 
 def update_recent_trade_file(trade_dict):
@@ -75,31 +82,27 @@ def format_tweet(trade_dict):
 
 def main():
     api = authenticate_api()
+    # every 10 seconds check for a new trade
     while True:
-        
         trade_dict = check_trades.get_trade_info()
         
-        recent_trade_file = open('src/recent_trade.txt', 'r')
-        old_trade = recent_trade_file.readlines()   
-        recent_trade_file.close()
-        
+        # check to see if there trade_dict contains a new trade
+        old_trade = check_recent_trade_file()
         update_recent_trade_file(trade_dict)
-        
-        recent_trade_file = open('src/recent_trade.txt', 'r')
-        new_trade = recent_trade_file.readlines()   
-        recent_trade_file.close()
-        
-        print(f'Equal? {old_trade == new_trade}')
-        
+        new_trade = check_recent_trade_file()   
+             
+        # if there is a new trade, download the graph image and tweet out an alert
         if(old_trade != new_trade):
+            check_trades.download_graph(trade_dict)
+
             tweetMessage = format_tweet(trade_dict)
             send_tweet(tweetMessage, api)
 
         print(f'formatted: {format_tweet(trade_dict)}')
-
         
         time.sleep(10)
         
 
 if __name__ == '__main__':
     main()
+    

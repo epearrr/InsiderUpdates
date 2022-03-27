@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
-# returns dictionary trade_info 
+# returns dictionary trade_info
 def get_trade_info():
     # this url shows purchases and sales made by CEOs and COOs
     url = 'http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=730&fdr=&td=0&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&xs=1&vl=25&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isceo=1&iscoo=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=100&page=1'
@@ -12,7 +12,7 @@ def get_trade_info():
     soup = BeautifulSoup(page_source)
 
     table = soup.find('table', {'class' : 'tinytable'})
-    recent_trade = table.find_all('tr')[1]
+    recent_trade = table.find_all('tr')[10]
     
     # changing the index of the 'tr' changes the row. changing the index of the 'td' changes the column
     trade_info['filing_date'] = recent_trade.find_all('td')[1].find('a').text
@@ -30,5 +30,14 @@ def get_trade_info():
     return trade_info
 
 
+def download_graph(trade_info):
+    url = f"https://www.profitspi.com/stock/stock-charts.ashx?chart={trade_info['ticker']}"
+    req = requests.get(url)
+    
+    file = open("src/images/stock_graph.png", "wb")
+    file.write(req.content)
+    file.close()
+    
+    
 if __name__ == '__main__':
-    print(get_trade_info())
+    download_graph(get_trade_info())
