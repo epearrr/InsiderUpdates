@@ -46,20 +46,30 @@ def format_tweet(trade_dict):
     # reformat the titles to be CEO/Pres/10% etc instead of CEO, Pres, 10%
     title = trade_dict['title']
     title = title.split(', ')
+    new_title = ''
     
-    # if the length of the split is greater than 1, add the slashes
-    if len(title) > 1:
-        newTitle = ''
-        
-        for i in range(len(title)):
-            newTitle += title[i]
-            newTitle += '/'
+    for i in range(len(title)):
+        new_title += title[i]
+        # makes sure the slash isn't printed after the last title
+        if i < len(title)-1:
+            new_title += '/'
             
-    else:
-        newTitle = title
-        
-    tweet = f"{trade_dict['ticker']} {newTitle}"
+    # reformat the insider info from "Last First" to "L. First" to save characters
+    insider = trade_dict['insider_name']
+    insider = insider.split(' ')
+    # adds the last name initial to new_insider
+    new_insider = f'{insider[1]} {insider[0][0]}.'
     
+    trade_type = ''
+    if trade_dict['trade_type'][0] == 'S':
+        trade_type = 'sold'
+    elif trade_dict['trade_type'][0] == 'B':
+        trade_type = 'bought'
+    
+    num_shares_traded = trade_dict['quantity'].replace('-','')
+    
+    
+    tweet = f"ALERT: {trade_dict['ticker']} {new_title} {new_insider} {trade_type} {num_shares_traded} shares of stock, resulting in an ownership change of {trade_dict['ownership_change_pct']}."
     return tweet
 
 
@@ -84,8 +94,8 @@ def main():
         if(old_trade != new_trade):
             tweetMessage = format_tweet(trade_dict)
             send_tweet(tweetMessage, api)
-        else:
-            print(f'formatted: {format_tweet(trade_dict)}')
+
+        print(f'formatted: {format_tweet(trade_dict)}')
 
         
         time.sleep(10)
