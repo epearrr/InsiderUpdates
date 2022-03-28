@@ -31,12 +31,12 @@ def authenticate_api():
 
 # send a tweet
 def send_tweet(message, api):
-    media = api.media_upload('src/images/stock_graph.png')
+    media = api.media_upload('images/stock_graph.png')
     api.update_status(status=message, media_ids=[media.media_id])
 
 
 def check_recent_trade_file():
-    recent_trade_file = open('src/recent_trade.txt', 'r')
+    recent_trade_file = open('recent_trade.txt', 'r')
     trade = recent_trade_file.readlines()   
     recent_trade_file.close()
     
@@ -44,7 +44,7 @@ def check_recent_trade_file():
 
 
 def update_recent_trade_file(trade_dict):
-    file = open('src/recent_trade.txt', 'w')
+    file = open('recent_trade.txt', 'w')
     file.write(str(trade_dict))
     file.close()
     

@@ -1,1 +1,0 @@
-{'filing_date': '2022-03-28 10:48:27', 'trade_date': '2022-03-25', 'ticker': 'CLH', 'company_name': 'Clean Harbors Inc', 'insider_name': 'Gerstenberg Eric W', 'title': 'COO(CHESI)', 'trade_type': 'S - Sale', 'price': '$106.62', 'quantity': '-6,927', 'ownership_change_pct': '-7%', 'value': '-$738,557'}
