@@ -1,0 +1,1 @@
+{'filing_date': '2022-06-10 09:51:44', 'trade_date': '2022-06-08', 'ticker': 'NVVE', 'company_name': 'Nuvve Holding Corp.', 'insider_name': 'Poilasne Gregory', 'title': 'CEO', 'trade_type': 'S - Sale', 'price': '$6.95', 'quantity': '-69,256', 'ownership_change_pct': '-6%', 'value': '-$481,385'}
