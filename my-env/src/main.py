@@ -1,18 +1,16 @@
+from mmap import ACCESS_COPY
 import check_trades
 import os
 import tweepy
 import time
 
 # CONSTANTS
-# ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
-# ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET')
-# CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
-# CONSUMER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
+ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
+ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET')
+CONSUMER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
+CONSUMER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
 
-ACCESS_TOKEN = '1483177923427409924-y5F5IcSwkwgckq6Wl9OuapLsfZLode'
-ACCESS_SECRET = 'CA5UDtBpfHQ6rXMMUQoVlNr4XDSo6i3wYkgLEjA3p0GdY'
-CONSUMER_KEY = '5V12YO9vJxeawdUFQ9pTgxM55'
-CONSUMER_SECRET = 'UzJnv7ofDaVmq1ekBeTHMWBzkrLI8ZHfuQ1b3Zbtem0yuHH87j'
+print(ACCESS_TOKEN)
 
 # authenticate API keys and return API object
 def authenticate_api():
@@ -41,7 +39,7 @@ def send_tweet(message, api):
 
 
 def check_recent_trade_file():
-    recent_trade_file = open('my-env/recent_trade.txt', 'r')
+    recent_trade_file = open('recent_trade.txt', 'r')
     trade = recent_trade_file.readlines()   
     recent_trade_file.close()
     
