@@ -39,6 +39,7 @@ def send_tweet(message, api):
 def send_reply(message, api):
     tweet = api.user_timeline(user_id=1483177923427409924, count=1)[0] # get the most recent tweet
     api.update_status(status = message, in_reply_to_status_id = tweet.id , auto_populate_reply_metadata=True) # send the reply
+    print('reply should sent')
 
 # returns the details of the trade in the recent_trade file. used to see if the most recent is different, meaning
 # a new trade has been made  
@@ -55,7 +56,7 @@ def update_recent_trade_file(trade_dict):
     file.write(str(trade_dict))
     file.close()
     
-# takes the info from the trade_dict dictionary and makes it 
+# takes the info from the trade_dict dictionary and turns it into a more readable format for the tweet
 def format_tweet(trade_dict):
     # reformat the titles to be CEO/Pres/10% etc instead of CEO, Pres, 10%D
     title = trade_dict['title']
@@ -84,9 +85,11 @@ def format_tweet(trade_dict):
     tweet = f"ALERT: {trade_dict['ticker']} {new_title} {new_insider} {trade_type} {num_shares_traded} shares of stock, resulting in an ownership change of {trade_dict['ownership_change_pct']}."
     return tweet
 
-
+# replies to the main tweet with additional information about the trade
 def format_reply(trade_dict):
-    return "placeholder message"
+    value = trade_dict['value'].replace('-', '')
+    reply = f"MORE INFO:\nCompany Name: {trade_dict['company_name']}\nFiling Date/Time: {trade_dict['filing_date']}\nPrice of Stock: {trade_dict['price']}\nValue of Transaction: {value}"
+    return reply
 
 
 def main():
