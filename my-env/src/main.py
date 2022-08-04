@@ -34,8 +34,13 @@ def authenticate_api():
 
 # send a tweet
 def send_tweet(message, api):
-    media = api.media_upload('images/stock_graph.png')
+    media = api.media_upload('my-env/images/stock_graph.png')
     api.update_status(status=message, media_ids=[media.media_id])
+
+
+def send_reply(message, api):
+    tweet = api.user_timeline(user_id=1483177923427409924, count=1)[0] # Get the most recent tweet
+    print("RECENT ID" + str(tweet.id))
 
 
 def check_recent_trade_file():
@@ -53,7 +58,7 @@ def update_recent_trade_file(trade_dict):
     
     
 def format_tweet(trade_dict):
-    # reformat the titles to be CEO/Pres/10% etc instead of CEO, Pres, 10%
+    # reformat the titles to be CEO/Pres/10% etc instead of CEO, Pres, 10%D
     title = trade_dict['title']
     title = title.split(', ')
     new_title = ''
@@ -73,14 +78,17 @@ def format_tweet(trade_dict):
     trade_type = ''
     if trade_dict['trade_type'][0] == 'S':
         trade_type = 'sold'
-    elif trade_dict['trade_type'][0] == 'B':
+        num_shares_traded = trade_dict['quantity'].replace('-','')
+    elif trade_dict['trade_type'][0] == 'P':
         trade_type = 'bought'
-    
-    num_shares_traded = trade_dict['quantity'].replace('-','')
-    
+        num_shares_traded = trade_dict['quantity'].replace('+','')
     
     tweet = f"ALERT: {trade_dict['ticker']} {new_title} {new_insider} {trade_type} {num_shares_traded} shares of stock, resulting in an ownership change of {trade_dict['ownership_change_pct']}."
     return tweet
+
+
+def format_reply(trade_dict):
+    return "placeholder message"
 
 
 def main():
@@ -99,7 +107,10 @@ def main():
             check_trades.download_graph(trade_dict)
 
             tweetMessage = format_tweet(trade_dict)
+            replyMessage = format_reply(trade_dict)
+            
             send_tweet(tweetMessage, api)
+            send_reply(replyMessage, api)
 
         print(f'formatted: {format_tweet(trade_dict)}')
         

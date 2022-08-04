@@ -9,7 +9,7 @@ def get_trade_info():
     trade_info = {}
 
     page_source = requests.get(url, 'html.parser').text
-    soup = BeautifulSoup(page_source)
+    soup = BeautifulSoup(page_source, features="lxml")
 
     table = soup.find('table', {'class' : 'tinytable'})
     recent_trade = table.find_all('tr')[2]
@@ -34,7 +34,7 @@ def download_graph(trade_info):
     url = f"https://www.profitspi.com/stock/stock-charts.ashx?chart={trade_info['ticker']}"
     req = requests.get(url)
     
-    file = open("images/stock_graph.png", "wb")
+    file = open("my-env/images/stock_graph.png", "wb")
     file.write(req.content)
     file.close()
     
