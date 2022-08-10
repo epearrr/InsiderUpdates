@@ -12,7 +12,7 @@ def get_trade_info():
     soup = BeautifulSoup(page_source, features="lxml")
 
     table = soup.find('table', {'class' : 'tinytable'})
-    recent_trade = table.find_all('tr')[2]
+    recent_trade = table.find_all('tr')[1]
     
     # changing the index of the 'tr' changes the row. changing the index of the 'td' changes the column
     trade_info['filing_date'] = recent_trade.find_all('td')[1].find('a').text
